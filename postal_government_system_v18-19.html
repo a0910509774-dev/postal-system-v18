@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منظومة البريد الحكومي - منطقة الخدمات البريدية الجبل الغربي</title>
+<style>
+:root{--navy:#102b46;--blue:#176b87;--teal:#18a6a0;--bg:#eef3f7;--line:#dce5eb;--text:#20313d;--green:#16845b;--orange:#b66b12;--red:#b43d3d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 8%,#dceef0 0,transparent 28%),linear-gradient(145deg,#edf3f8,#f7f9fb 55%,#e7f0f2);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+header{background:linear-gradient(115deg,#102b46,#145875 58%,#168f91);color:white;padding:26px 18px;box-shadow:0 8px 28px #102b4624;position:relative;overflow:hidden}header:after{content:"";position:absolute;width:260px;height:260px;border:1px solid #ffffff22;border-radius:50%;left:-70px;top:-140px;box-shadow:0 0 0 25px #ffffff0a,0 0 0 55px #ffffff08}header h1{font-size:23px;margin:0 0 8px;position:relative;z-index:1}header p{margin:0;font-size:13px;opacity:.92;position:relative;z-index:1}
+.wrap{max-width:1160px;margin:20px auto;padding:0 13px}.notice{background:#fff;border:1px solid #d8e5eb;padding:12px 15px;border-radius:12px;font-size:13px;line-height:1.9;margin-bottom:14px;box-shadow:0 3px 12px #102b4608}nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:12px;margin:18px 0}nav button,.btn{border:0;border-radius:10px;padding:11px 15px;background:linear-gradient(120deg,var(--navy),var(--blue));color:white;font-weight:bold;cursor:pointer;box-shadow:0 3px 9px #12304a18}nav button{background:#fff;color:var(--navy);box-shadow:0 5px 16px #102b4610;border:1px solid #dce6ec;min-height:104px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:13px;transition:.18s}nav button .navicon{width:42px;height:42px;border-radius:12px;background:linear-gradient(145deg,#e5f0f7,#d7e8ef);display:grid;place-items:center;font-size:22px}nav button.active{background:linear-gradient(145deg,#102b46,#176b87);color:#fff;border-color:#176b87;transform:translateY(-2px)}nav button.active .navicon{background:#ffffff20}nav button:hover{transform:translateY(-2px);box-shadow:0 8px 20px #102b4620}
+.panel{display:none;background:#ffffffed;border:1px solid #dce6ec;border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 8px 24px #12304a0b}.panel.active{display:block}h2{font-size:18px;margin:0 0 15px;color:var(--navy)}h3{font-size:15px;color:var(--navy);margin:18px 0 10px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}input,select,textarea{width:100%;border:1px solid #cbd7df;border-radius:9px;padding:11px;font:inherit;background:#fff;color:var(--text)}textarea{min-height:70px;resize:vertical}.full{grid-column:1/-1}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.secondary{background:#e5eef2;color:var(--navy);box-shadow:none}small,.muted{color:#667985;font-size:12px;line-height:1.8}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.stat{background:linear-gradient(145deg,#f7fbfd,#edf5f7);border:1px solid var(--line);border-radius:12px;padding:14px}.stat b{display:block;font-size:25px;color:var(--navy);margin-top:5px;font-weight:800}table{width:100%;border-collapse:collapse;font-size:13px;min-width:720px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}th{background:#edf4f7;color:var(--navy)}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:11px;background:#fff}.tag{display:inline-block;padding:4px 8px;border-radius:20px;background:#eaf1f5;font-size:11px;white-space:nowrap}.tag.green{background:#e2f4ec;color:#126744}.tag.orange{background:#fff0d9;color:#8a510c}.tag.red{background:#fde9e9;color:#a12f2f}.result{background:#f7fafb;border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:14px;line-height:1.9}.result img{max-width:180px;max-height:180px;object-fit:contain;display:block;border-radius:8px;margin-top:8px;border:1px solid var(--line)}.hidden{display:none!important}.reporthead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.rank1{background:#fff8e6!important}
+/* ألوان مؤشرات المتابعة */
+.stat.blue{background:linear-gradient(145deg,#e7f1ff,#d8e8ff);border-color:#9fc3f4}.stat.blue b{color:#1556a6}
+.stat.yellow{background:linear-gradient(145deg,#fff9df,#ffefad);border-color:#f0d36a}.stat.yellow b{color:#8a6500}
+.stat.green{background:linear-gradient(145deg,#e5f8ed,#c9efd9);border-color:#91d4aa}.stat.green b{color:#147443}
+.stat.red{background:linear-gradient(145deg,#fff0f0,#ffdada);border-color:#efaaaa}.stat.red b{color:#b42323}
+.stat.purple{background:linear-gradient(145deg,#f1edff,#e3dcff);border-color:#c2b4f4}.stat.purple b{color:#5940a8}
+.tag.blue{background:#e2edff;color:#1556a6}.tag.yellow{background:#fff2bf;color:#805d00}.tag.green{background:#d9f4e3;color:#126b3e}.tag.red{background:#ffe0e0;color:#a51f1f}
+
+.clickable{cursor:pointer;transition:transform .15s,box-shadow .15s}.clickable:hover{transform:translateY(-2px);box-shadow:0 7px 18px #12304a20}
+.metric{border:1px solid var(--line);border-radius:12px;background:#f4f1ff;color:#5940a8;font-size:24px;font-weight:bold;padding:12px}
+.print-footer{display:none;margin-top:32px;text-align:right;line-height:2.2;font-weight:bold}
+.unit-login{max-width:460px;margin:22px auto;padding:22px;border:1px solid #dce6ec;border-radius:16px;background:linear-gradient(145deg,#fff,#f2f7fa);box-shadow:0 8px 24px #12304a0b}.unit-login .navicon{width:54px;height:54px;border-radius:15px;background:linear-gradient(145deg,#e5f0f7,#d7e8ef);display:grid;place-items:center;font-size:28px;margin:0 auto 12px}.unit-login h3{text-align:center;margin:0 0 8px}.unit-login p{text-align:center}
+@media print{body.print-stats #intake,body.print-stats #lookup,body.print-stats #dashboard,body.print-stats #manager,body.print-stats #users,body.print-stats header,body.print-stats nav,body.print-stats .notice,body.print-stats #statsOffice,body.print-stats #statsPeriod,body.print-stats #statsDate,body.print-stats .actions{display:none!important}body.print-stats #statistics{display:block!important}body.print-stats .print-footer{display:block}body.print-stats .panel{padding:0}body.print-stats table{min-width:0;font-size:10px}}
+@media(max-width:650px){nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}nav button{min-height:92px;padding:9px 6px}.grid{grid-template-columns:1fr}.statgrid{grid-template-columns:repeat(2,1fr)}header h1{font-size:19px}.panel{padding:14px}}@media print{body{background:#fff}header{box-shadow:none}.notice,nav,.actions button,#intake,#lookup{display:none!important}.panel{display:block!important;box-shadow:none;border:0}.tablewrap{overflow:visible}table{min-width:0;font-size:10px}th,td{padding:6px}}
+
+@media print{body.print-waybill>*:not(#waybillPrintSheet){display:none!important}body.print-waybill #waybillPrintSheet{display:block!important;position:static!important;width:100%;padding:18px;color:#111;background:#fff;font-family:Tahoma,Arial,sans-serif}#waybillPrintSheet h1{text-align:center;font-size:20px}#waybillPrintSheet .print-meta{line-height:2;margin:14px 0}#waybillPrintSheet img{display:block;max-width:100%;max-height:620px;object-fit:contain;margin:10px auto;border:1px solid #bbb;padding:4px;page-break-inside:avoid}#waybillPrintSheet .print-photo{page-break-inside:avoid;margin-top:18px}#waybillPrintSheet .muted{color:#333}}
+</style>
+
+<meta name="theme-color" content="#123b63">
+<meta name="application-name" content="البريد الحكومي">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="البريد الحكومي">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+
+</head>
+<body>
+<header><h1>منظومة البريد الحكومي</h1><p>منطقة الخدمات البريدية الجبل الغربي</p></header>
+<div class="wrap">
+<div class="notice">تُستخدم المنظومة لمتابعة البريد الحكومي الوارد في جميع مكاتب منطقة الخدمات البريدية الجبل الغربي. تُسجّل البيانات مرة واحدة، ثم تُسترجع بالباركود وتُحدّث حالة التسليم مع إرفاق الإثبات.</div>
+<nav aria-label="القائمة الرئيسية">
+<button class="active" data-tab="intake"><span class="navicon">⌨️</span><span>غرفة العمليات</span></button>
+<button data-tab="lookup"><span class="navicon">▦</span><span>البحث بالباركود</span></button>
+<button data-tab="dashboard"><span class="navicon">📋</span><span>متابعة رئيس القسم</span></button>
+<button data-tab="manager"><span class="navicon">🏢</span><span>إدارة المنطقة</span></button>
+<button data-tab="manage"><span class="navicon">🛠️</span><span>إدارة البوالص</span></button>
+<button data-tab="sorting"><span class="navicon">📦</span><span>وحدة الفرز والتوزيع</span></button>
+<button data-tab="statistics"><span class="navicon">📊</span><span>الإحصائيات والتقارير</span></button>
+<button data-tab="users"><span class="navicon">👥</span><span>إدارة المستخدمين</span></button>
+<button data-tab="officeAccounts"><span class="navicon">🏤</span><span>المكاتب والموظفون والموزعون</span></button>
+<button data-tab="officePortal"><span class="navicon">🔐</span><span>دخول المكاتب البريدية</span></button>
+</nav>
+
+<section id="intake" class="panel active">
+<h2>تسجيل البوليصة لأول مرة في غرفة العمليات</h2>
+<div class="grid">
+<div><label>رقم الباركود / رقم البوليصة *</label><input id="barcode" placeholder="امسح الباركود أو اكتب الرقم"></div>
+<div><label>تاريخ إنشاء البوليصة كما هو مدون في الأصل *</label><input id="created" type="date"></div>
+<div><label>المرسل *</label><input id="sender" placeholder="اسم الجهة المرسلة"></div>
+<div><label>المستلم *</label><input id="recipient" placeholder="اسم الجهة أو الشخص المستلم"></div>
+<div><label>المكتب الرئيسي المحال إليه *</label><select id="mainOffice"></select></div>
+<div><label>المكتب الفرعي</label><select id="branch"><option value="">بدون / المكتب الرئيسي</option></select></div>
+<div><label>اسم المندوب / الموزع</label><input id="distributor" placeholder="اسم المندوب"></div>
+<div><label>موظف غرفة العمليات</label><input id="operator" placeholder="اسم الموظف"></div>
+<div class="full"><label>صورة أصل البوليصة *</label>
+<div class="actions" style="margin-top:4px">
+<button type="button" class="btn" id="takePhotoBtn">📷 تصوير البوليصة</button>
+<button type="button" class="btn secondary" id="choosePhotoBtn">🖼️ اختيار صورة من الاستوديو</button>
+</div>
+<input id="cameraImage" type="file" accept="image/*" capture="environment" hidden>
+<input id="galleryImage" type="file" accept="image/*" hidden>
+<input id="waybillImage" type="file" accept="image/*" hidden>
+<div id="imagePreview" class="muted">لم يتم اختيار صورة بعد.</div><div id="ocrStatus" class="muted" style="margin-top:8px"></div>
+<small>يمكنك تصوير البوليصة مباشرة أو اختيار صورة سبق أن التقطها موظف آخر وحفظها في الاستوديو. راجع وضوح الصورة قبل الحفظ.</small></div>
+<div class="full"><label>ملاحظات</label><textarea id="notes" placeholder="أي ملاحظات إضافية"></textarea></div>
+</div>
+<div class="actions"><button class="btn" id="saveBtn">حفظ وإحالة البوليصة</button><button class="btn secondary" id="clearBtn">تفريغ الحقول</button></div>
+<div id="intakeMsg" class="muted"></div>
+</section>
+
+<section id="lookup" class="panel">
+<h2>استلام المكتب — البحث بالباركود</h2>
+<div class="grid">
+<div class="full"><label>رقم الباركود / رقم البوليصة</label><input id="lookupBarcode" placeholder="امسح الباركود بقارئ متصل أو اكتب الرقم"></div>
+</div>
+<div class="actions"><button class="btn" id="findBtn">إظهار بيانات البوليصة</button><button class="btn secondary" id="cameraBtn">فتح ماسح الكاميرا</button></div>
+<small>إذا لم يدعم المتصفح قراءة الباركود بالكاميرا، استخدم قارئ باركود USB/Bluetooth أو أدخل الرقم يدوياً.</small>
+<div id="scanMsg" class="muted"></div>
+<div id="recordResult"></div>
+</section>
+
+
+<section id="manage" class="panel">
+<h2>إدارة البوالص — صلاحيات رئيس القسم</h2>
+<div class="notice">من هذه الصفحة يمكنك مراجعة أي بوليصة وتصحيح بياناتها أو حذف السجلات التجريبية والخاطئة. كل تعديل أو حذف يُسجّل في سجل رقابي محلي. هذه النسخة تعمل على الجهاز الحالي فقط.</div>
+<div class="grid">
+<div class="full"><label>بحث برقم البوليصة أو المرسل أو المستلم</label><input id="manageSearch" placeholder="اكتب رقم البوليصة أو جزءاً من الاسم"></div>
+</div>
+<div class="actions"><button class="btn secondary" id="refreshManage">تحديث القائمة</button><button class="btn" id="deleteAllRecords">حذف جميع البوالص التجريبية</button></div>
+<div id="manageMsg" class="muted"></div>
+<div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>رقم البوليصة</th><th>المرسل</th><th>المستلم</th><th>المكتب</th><th>الحالة</th><th>إجراء رئيس القسم</th></tr></thead><tbody id="manageRows"></tbody></table></div>
+<div id="editWaybillBox" class="result hidden">
+<h3>تعديل بيانات البوليصة</h3><input id="editRecordId" type="hidden">
+<div class="grid">
+<div><label>رقم البوليصة / الباركود *</label><input id="editBarcode"></div>
+<div><label>تاريخ إنشاء البوليصة</label><input id="editCreated" type="date"></div>
+<div><label>المرسل *</label><input id="editSender"></div><div><label>المستلم *</label><input id="editRecipient"></div>
+<div><label>المكتب الرئيسي</label><select id="editOffice"></select></div><div><label>المكتب الفرعي</label><input id="editBranch"></div>
+<div><label>المندوب / الموزع</label><input id="editDistributor"></div><div><label>الحالة</label><select id="editStatus"><option>محالة إلى المكتب</option><option>تم الاستلام بالمكتب</option><option>قيد التوزيع</option><option>تم التسليم</option><option>متعذر التسليم</option></select></div>
+<div class="full"><label>ملاحظات التصحيح (مطلوبة)</label><textarea id="editReason" placeholder="سبب التعديل ومن طلب التصحيح"></textarea></div>
+</div><div class="actions"><button class="btn" id="saveWaybillEdit">حفظ التعديلات</button><button class="btn secondary" id="cancelWaybillEdit">إلغاء</button></div>
+</div>
+<h3>سجل التعديلات والحذف</h3><div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>الإجراء</th><th>رقم البوليصة</th><th>المنفذ</th><th>التفاصيل</th></tr></thead><tbody id="auditRows"></tbody></table></div>
+</section>
+
+<section id="users" class="panel">
+<h2>إدارة المستخدمين</h2>
+<div class="notice">أنت المسؤول الإداري عن الحسابات. من هنا تنشئ الحسابات وتعدل الاسم واسم المستخدم وكلمة المرور، وتوقف الحساب أو تعيد تفعيله أو تحذفه. هذه نسخة محلية تجريبية؛ لا تستخدم كلمات مرور حقيقية أو حساسة قبل تشغيل الخادم المركزي الآمن.</div>
+<div class="grid">
+<div><label>الاسم الكامل *</label><input id="userFullName" placeholder="اسم الموظف"></div>
+<div><label>اسم المستخدم *</label><input id="userLogin" placeholder="مثال: office.staff1" autocomplete="off"></div>
+<div><label>كلمة المرور الأولية *</label><input id="userPassword" type="password" placeholder="تُستخدم لإنشاء بصمة آمنة ولا تُعرض لاحقاً" autocomplete="new-password"></div>
+<div><label>المكتب / الجهة *</label><select id="userOffice"></select></div>
+<div><label>الدور الوظيفي</label><select id="userRole"><option>رئيس مكتب</option><option>موظف مكتب</option><option>مندوب توزيع</option><option>الفرز والتوزيع</option><option>المتابعة</option></select></div>
+<div><label>حالة الحساب المقترح</label><select id="userActive"><option>نشط عند التنفيذ</option><option>موقوف</option></select></div>
+<div><label>ملاحظات</label><input id="userNotes" placeholder="مثلاً: موظف بديل / مندوب"></div>
+</div>
+<div class="actions"><button class="btn" id="addUserBtn">إضافة إلى سجل المستخدمين</button><button class="btn secondary" id="clearUserBtn">تفريغ الحقول</button><button class="btn secondary" id="exportUsersBtn">تصدير قائمة المستخدمين</button></div>
+<div id="userMsg" class="muted"></div>
+<h3>سجل الحسابات المصروفة — خاص بقسم المتابعة</h3>
+<p class="muted">يُحفظ كل اسم مستخدم تضيفه تلقائياً في هذا السجل، مع الجهة والدور وتاريخ إنشاء الحساب. لا تُحفظ كلمات المرور كنص مقروء؛ تُخزّن بصمة مشتقة منها ولا يمكن عرض الرقم السري القديم.</p>
+<div class="tablewrap"><table style="min-width:950px"><thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>المكتب / الجهة</th><th>الدور</th><th>تاريخ الصرف</th><th>حالة الحساب</th><th>إجراءات الإدارة</th></tr></thead><tbody id="userRows"></tbody></table></div>
+<div id="editUserBox" class="result hidden"><h3>تعديل بيانات الحساب</h3><input id="editUserIndex" type="hidden"><div class="grid"><div><label>الاسم الكامل</label><input id="editUserFullName"></div><div><label>اسم المستخدم</label><input id="editUserLogin"></div><div><label>المكتب / الجهة</label><select id="editUserOffice"></select></div><div><label>الدور الوظيفي</label><select id="editUserRole"><option>رئيس مكتب</option><option>موظف مكتب</option><option>مندوب توزيع</option><option>الفرز والتوزيع</option><option>المتابعة</option></select></div><div><label>الحالة</label><select id="editUserActive"><option>نشط</option><option>موقوف</option></select></div><div><label>ملاحظات</label><input id="editUserNotes"></div></div><div class="actions"><button class="btn" id="saveUserEditBtn">حفظ التعديل</button><button class="btn secondary" id="cancelUserEditBtn">إلغاء</button></div><div id="editUserMsg" class="muted"></div></div>
+
+<div class="notice">حساب وحدة الفرز والتوزيع يُنشأ من نموذج الحسابات أعلاه باختيار الدور «الفرز والتوزيع». لا توجد كلمة مرور منفصلة خارج سجل المستخدمين؛ أي تعديل أو إعادة تعيين يتم من هذه الصفحة.</div>
+</section>
+
+<section id="dashboard" class="panel">
+<h2>لوحة متابعة جميع البوالص</h2><p class="muted">تاريخ التسجيل وتاريخ التسليم يسجلهما النظام تلقائياً. لا يحتاج الموظف إلى إدخال تاريخ التسليم أو استخدام GPS.</p>
+<div class="statgrid">
+<div class="stat blue">إجمالي البوالص<b id="total">0</b></div>
+<div class="stat yellow">قيد الإجراء<b id="pending">0</b></div>
+<div class="stat green">تم التسليم<b id="delivered">0</b></div>
+<div class="stat red">متأخرة أكثر من 3 أيام<b id="late">0</b></div>
+</div>
+<div class="grid" style="margin-bottom:12px">
+<div><label>تصفية حسب المكتب</label><select id="filterOffice"><option value="">كل المكاتب</option></select></div>
+<div><label>بحث بالباركود أو المرسل أو المستلم</label><input id="filterText" placeholder="اكتب كلمة للبحث"></div>
+</div>
+<div class="tablewrap"><table><thead><tr><th>الباركود</th><th>المرسل</th><th>المستلم</th><th>المكتب</th><th>الفرع</th><th>الحالة</th><th>إثبات التسليم</th><th>تاريخ التسجيل</th><th>إجراء</th></tr></thead><tbody id="rows"></tbody></table></div>
+<h3>التقارير ومقارنة أداء المكاتب</h3><div class="grid" style="margin:10px 0 14px"><div><label>الفترة الزمنية للتقرير</label><select id="reportPeriod"><option value="day">يومي</option><option value="week" selected>أسبوعي</option><option value="month">شهري</option><option value="all">كل الفترات</option></select></div><div><label>تاريخ مرجعي للتقرير</label><input id="reportDate" type="date"></div></div><div class="statgrid"><div class="stat yellow">البوالص المسجلة في الفترة<b id="periodTotal">0</b></div><div class="stat green">تم تسليمها في الفترة<b id="periodDelivered">0</b></div><div class="stat purple">نسبة الإنجاز<b id="periodRate">0%</b></div><div class="stat blue">متوسط مدة التسليم<b id="periodAverage">—</b></div></div><div class="reporthead"><h3>ترتيب المكاتب حسب نسبة التسليم وسرعة الأداء</h3><span class="muted">نسبة الإنجاز = البوالص المسلّمة ÷ إجمالي البوالص المسجلة للمكتب</span></div><div class="tablewrap"><table><thead><tr><th>الترتيب</th><th>المكتب</th><th>إجمالي البوالص</th><th>تم التسليم</th><th>نسبة الإنجاز</th><th>متوسط مدة التسليم</th><th>متأخرة / قيد الإجراء</th></tr></thead><tbody id="officeReportRows"></tbody></table></div><div class="actions"><button class="btn secondary" id="printReportBtn">طباعة التقرير</button><button class="btn secondary" id="exportBtn">تصدير نسخة JSON احتياطية</button><label class="btn secondary" style="display:inline-block">استيراد نسخة JSON<input id="importFile" type="file" accept="application/json" hidden></label></div>
+
+</section>
+
+<section id="officeAccounts" class="panel">
+<h2>المكاتب البريدية والموظفون والموزعون</h2>
+<div class="notice">قسم مستقل لاستعراض الحسابات التي صرفها رئيس قسم المتابعة للمكاتب الرئيسية الثمانية والموظفين والمندوبين. اختر المكتب للاطلاع على الحسابات التابعة له وطبيعة الصفة الوظيفية. إضافة الحسابات وتعديلها تبقى من إدارة المستخدمين.</div>
+<div class="grid"><div><label>اختر المكتب الرئيسي</label><select id="officeAccountFilter"><option value="">جميع المكاتب الرئيسية</option></select></div><div><label>بحث بالاسم أو اسم المستخدم أو الصفة</label><input id="officeAccountSearch" placeholder="اكتب اسم الموظف أو المستخدم"></div></div>
+<div class="statgrid" id="officeAccountTiles"></div>
+<h3 id="officeAccountHeading">حسابات المكاتب والموظفين والموزعين</h3>
+<div class="tablewrap"><table><thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>المكتب / الفرع</th><th>طبيعة العمل</th><th>حالة الحساب</th><th>تاريخ الصرف</th></tr></thead><tbody id="officeAccountRows"></tbody></table></div>
+<div class="actions"><button class="btn secondary" id="goManageUsersBtn">إدارة الحسابات وصرف مستخدم جديد</button></div>
+</section>
+
+<section id="officePortal" class="panel">
+<h2>بوابة دخول المكاتب البريدية</h2>
+<div class="notice">يختار الموظف مكتبه، يظهر اسم المستخدم المسجل لذلك المكتب تلقائياً، ثم يكتب كلمة المرور التي صرفها له قسم المتابعة. بعد الدخول تظهر البوالص المحالة إلى مكتبه فقط. يفتح البوليصة من نفس شاشة البحث وتحديث الحالة المعتمدة، ويرفق إثبات التسليم بالكاميرا أو من الاستوديو.</div>
+<div id="officePortalLogin" class="unit-login">
+ <div class="navicon">🏤</div>
+ <h3>دخول المكتب</h3>
+ <div style="margin:12px 0"><label for="portalOffice">المكتب الرئيسي</label><select id="portalOffice"></select></div>
+ <div style="margin:12px 0"><label for="portalUsername">اسم المستخدم</label><input id="portalUsername" autocomplete="username" placeholder="يظهر تلقائياً بعد اختيار المكتب"></div>
+ <div style="margin:12px 0"><label for="portalPassword">كلمة المرور</label><input id="portalPassword" type="password" autocomplete="current-password" placeholder="اكتب كلمة المرور"></div>
+ <div class="actions"><button class="btn" id="officePortalLoginBtn">دخول المكتب</button></div>
+ <div id="officePortalMsg" class="muted" role="status"></div>
+</div>
+<div id="officePortalWorkspace" class="hidden">
+ <div class="result"><b id="officePortalWelcome">المكتب</b><span class="muted"> — هذه قائمة البوالص المحالة إلى مكتبك.</span></div>
+ <div class="grid"><div><label>بحث برقم البوليصة أو المرسل أو المستلم</label><input id="officePortalSearch" placeholder="اكتب رقم البوليصة أو الاسم"></div><div class="actions" style="align-items:end"><button class="btn secondary" id="officePortalRefresh">تحديث القائمة</button><button class="btn secondary" id="officePortalLogout">تسجيل الخروج</button></div></div>
+ <div class="statgrid"><div class="stat blue">إجمالي المحال<b id="portalTotal">0</b></div><div class="stat yellow">قيد الإجراء<b id="portalPending">0</b></div><div class="stat green">تم التسليم<b id="portalDone">0</b></div></div>
+ <div class="tablewrap"><table><thead><tr><th>رقم البوليصة</th><th>المرسل</th><th>المستلم</th><th>الفرع</th><th>الحالة</th><th>تاريخ الإحالة</th><th>الإجراء</th></tr></thead><tbody id="officePortalRows"></tbody></table></div>
+ <div class="notice">عند فتح البوليصة ستظهر نفس شاشة بياناتها وتحديث حالتها. عند اختيار «تم التسليم» يجب إرفاق صورة إثبات التسليم: تصوير بالكاميرا أو اختيار صورة من الاستوديو. يُسجل وقت التسليم تلقائياً وتظهر النتيجة لوحدة الفرز والتوزيع وقسم المتابعة.</div>
+</div>
+</section>
+
+<section id="sortingLogin" class="panel">
+<div class="unit-login">
+<div class="navicon">📦</div>
+<h2 style="text-align:center">دخول وحدة الفرز والتوزيع</h2>
+<p class="muted">هذه مساحة مستقلة للوحدة. أدخل اسم المستخدم وكلمة المرور المخصصين لها.</p>
+<div style="margin:14px 0"><label for="sortingLoginName">اسم المستخدم</label><input id="sortingLoginName" autocomplete="username" placeholder="اسم مستخدم الوحدة"></div>
+<div style="margin:14px 0"><label for="sortingLoginPass">كلمة المرور</label><input id="sortingLoginPass" type="password" autocomplete="current-password" placeholder="كلمة المرور"></div>
+<div class="actions"><button class="btn" id="sortingLoginBtn">دخول الوحدة</button></div>
+<div id="sortingLoginMsg" class="muted" role="status"></div>
+<p class="muted">يتم إعداد بيانات الدخول من حساب رئيس القسم. النسخة الحالية نموذج محلي، وليست حماية مركزية فعلية.</p>
+</div>
+</section>
+
+<section id="sorting" class="panel">
+<h2>وحدة الفرز والتوزيع — متابعة تسليم المكاتب</h2>
+<div class="notice">تظهر هنا تلقائياً جميع البوالص التي سجلتها غرفة العمليات، وتتابع الوحدة حالة التسليم لدى المكاتب فقط. لا تعيد الوحدة إدخال بيانات البوليصة ولا تنفذ إحالة أو فرزاً مكرراً. عند تحديث المكتب لحالة البوليصة وإرفاق إثبات التسليم، تظهر الحالة الجديدة هنا تلقائياً.</div>
+<div class="statgrid">
+<div class="stat blue">إجمالي البوالص<b id="sortTotal">0</b></div>
+<div class="stat yellow">قيد الإجراء<b id="sortWaiting">0</b></div>
+<div class="stat green">تم التسليم<b id="sortDone">0</b></div>
+<div class="stat red">متأخرة أكثر من 3 أيام<b id="sortDispatched">0</b></div>
+</div>
+<div class="grid">
+<div><label>تصفية حسب المكتب</label><select id="sortOfficeFilter"><option value="">جميع المكاتب</option></select></div>
+<div><label>بحث برقم البوليصة أو المرسل أو المستلم</label><input id="sortSearch" placeholder="اكتب رقم البوليصة أو الاسم"></div>
+</div>
+<h3>متابعة حالة تسليم البوالص لدى المكاتب</h3>
+<div class="tablewrap"><table><thead><tr><th>رقم البوليصة</th><th>المرسل</th><th>المستلم</th><th>المكتب</th><th>الفرع</th><th>حالة المكتب</th><th>تاريخ التسجيل</th><th>تاريخ التسليم</th><th>إثبات التسليم</th><th>مدة المتابعة</th></tr></thead><tbody id="sortingRows"></tbody></table></div>
+<h3>تقرير متابعة المكاتب</h3>
+<p class="muted">يُعد التقرير من واقع الحالات المسجلة في المكاتب، ويُعتمد من رئيس وحدة الفرز والتوزيع قبل إحالته إلى رئيس قسم متابعة الخدمات للمطابقة.</p>
+<div class="actions"><button class="btn secondary" id="sortingPrintBtn" type="button">طباعة تقرير الوحدة</button><button class="btn secondary" id="sortingCsvBtn" type="button">تصدير التقرير Excel (CSV)</button></div>
+<div class="result"><b>مسار اعتماد التقرير</b><p class="muted">رئيس وحدة الفرز والتوزيع ← رئيس قسم متابعة الخدمات للمطابقة مع الإحصائية المركزية ← مدير منطقة الخدمات البريدية الجبل الغربي.</p></div>
+<hr style="border:0;border-top:1px solid var(--line);margin:22px 0">
+<h3>البحث عن البوالص المسلّمة وطباعتها</h3>
+<p class="muted">اكتب رقم البوليصة لعرض البوليصة الأصلية وصورة إثبات التسليم. هذه الخاصية للبحث والاطلاع والطباعة فقط، ولا تغيّر بيانات المكتب أو حالة التسليم.</p>
+<div class="grid">
+ <div><label for="deliveredSearchBarcode">رقم البوليصة</label><input id="deliveredSearchBarcode" placeholder="اكتب رقم البوليصة كاملاً"></div>
+ <div class="actions" style="align-items:end"><button class="btn" id="deliveredSearchBtn" type="button">بحث عن البوليصة المسلّمة</button></div>
+</div>
+<div id="deliveredSearchResult" aria-live="polite"></div>
+</section>
+
+<section id="manager" class="panel">
+<h2>لوحة مدير المنطقة — عرض ومتابعة</h2>
+<p class="muted">لوحة عرض لمؤشرات جميع المكاتب. اضغط على أي مؤشر لعرض السجلات المرتبطة به.</p>
+<div class="statgrid">
+<div class="stat blue clickable" data-manager-filter="all">إجمالي البوالص<b id="mTotal">0</b></div>
+<div class="stat yellow clickable" data-manager-filter="pending">قيد الإجراء<b id="mPending">0</b></div>
+<div class="stat green clickable" data-manager-filter="delivered">تم التسليم<b id="mDelivered">0</b></div>
+<div class="stat red clickable" data-manager-filter="late">متأخرة أكثر من 3 أيام<b id="mLate">0</b></div>
+</div>
+<div class="grid">
+<div><label>نسبة التسليم الإجمالية</label><div class="metric" id="mRate">0%</div></div>
+<div><label>متوسط مدة التسليم</label><div class="metric" id="mAverage">—</div></div>
+</div>
+<h3 id="managerListTitle">ملخص أداء المكاتب</h3>
+<div class="tablewrap"><table><thead><tr><th>المكتب</th><th>إجمالي البوالص</th><th>تم التسليم</th><th>نسبة الإنجاز</th><th>متوسط المدة</th><th>متأخرة</th><th>قيد الإجراء</th></tr></thead><tbody id="managerOfficeRows"></tbody></table></div>
+<div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>رقم البوليصة</th><th>المكتب</th><th>المرسل</th><th>المستلم</th><th>تاريخ التسجيل</th><th>الحالة</th><th>مدة الانتظار</th></tr></thead><tbody id="managerRecordRows"><tr><td colspan="7">اختر أحد المؤشرات لعرض التفاصيل.</td></tr></tbody></table></div>
+</section>
+
+<section id="statistics" class="panel">
+<h2>الإحصاء والتقارير</h2>
+<div class="grid">
+<div><label>اختيار المكتب</label><select id="statsOffice"><option value="">جميع المكاتب</option></select></div>
+<div><label>الفترة الزمنية</label><select id="statsPeriod"><option value="day">يومي</option><option value="week" selected>أسبوعي</option><option value="month">شهري</option><option value="all">كل الفترات</option></select></div>
+<div><label>التاريخ المرجعي</label><input id="statsDate" type="date"></div>
+</div>
+<div class="statgrid" style="margin-top:12px">
+<div class="stat blue">إجمالي البوالص المسجلة<b id="sTotal">0</b></div>
+<div class="stat green">تم التسليم خلال الفترة<b id="sDelivered">0</b></div>
+<div class="stat purple">نسبة الإنجاز<b id="sRate">0%</b></div>
+<div class="stat yellow">متوسط مدة التسليم<b id="sAverage">—</b></div>
+</div>
+<div class="reporthead"><h3 id="statsHeading">التفاصيل حسب المكتب</h3><span class="muted">التسجيل والتسليم يُحسبان كلٌ حسب تاريخه الفعلي.</span></div>
+<div class="tablewrap"><table><thead><tr><th>م</th><th>رقم البوليصة</th><th>المكتب</th><th>تاريخ التسجيل</th><th>تاريخ التسليم</th><th>مدة التسليم</th><th>الحالة</th></tr></thead><tbody id="statsRows"></tbody></table></div>
+<div class="actions">
+<button class="btn" id="exportPdfBtn">تصدير التقرير PDF / طباعة</button>
+<button class="btn secondary" id="exportCsvBtn">تصدير التقرير Excel (CSV)</button>
+<button class="btn secondary" id="exportAllCsvBtn">تصدير التقرير المجمع للمكاتب</button>
+</div>
+<div id="statsPrintFooter" class="print-footer"><b>اعتماد / رئيس قسم متابعة الخدمات</b><div>التوقيع: ....................................</div><div>الختم: ........................................</div></div>
+</section>
+<p class="muted">تعتمد المنظومة على تسجيل البوليصة مرة واحدة واسترجاعها بالباركود، مع متابعة حالة التسليم وإثباته.</p>: تسجيل واحد في غرفة العمليات، ثم استرجاع بيانات البوليصة بالباركود في المكتب، مع متابعة موحدة.</p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script>
+const offices={
+"مكتب بريد غريان الرئيسي":["بريد القواسم","بريد القحاصات","بريد الرابطة","بريد وادي الحي","بريد بئر غني","بريد الأصابعة","بريد العربان الشرقية","بريد العربان الغربية"],
+"مكتب بريد يفرن الرئيسي":["بريد أم الجرسان","بريد القلعة","بريد العوينية"],
+"مكتب بريد الزنتان الرئيسي":[],
+"مكتب بريد جادو الرئيسي":["بريد الرجبان","بريد الرحيبات","بريد قصر الحاج","بريد مزغورة","بريد شكشوك"],
+"مكتب بريد تيجي الرئيسي":["بريد الجوش","بريد بدر","بريد الحرابة","بريد طمزين","بريد كباو","بريد تندميرة"],
+"مكتب بريد نالوت الرئيسي":["بريد الرويس","بريد الحوامد","بريد وازن"],
+"مكتب بريد غدامس الرئيسي":["بريد درج","بريد سيناون"],
+"مكتب بريد مزدة الرئيسي":["بريد الشقيقة","بريد القريات","بريد نسمة","بريد رأس الطبل","بريد الشويرف"]
+};
+const $=id=>document.getElementById(id);
+const KEY="western_mountain_incoming_demo_v1";
+const USERS_KEY="western_mountain_demo_users_v1";
+const AUDIT_KEY="western_mountain_audit_v1";
+let auditLog=JSON.parse(localStorage.getItem(AUDIT_KEY)||"[]");
+function audit(action,record,details,by="رئيس قسم متابعة الخدمات (محلي)"){auditLog.unshift({date:new Date().toISOString(),action,barcode:record?.barcode||"—",by,details});localStorage.setItem(AUDIT_KEY,JSON.stringify(auditLog));renderAudit();}
+let users=JSON.parse(localStorage.getItem(USERS_KEY)||"[]");
+let records=JSON.parse(localStorage.getItem(KEY)||"[]");records.forEach(r=>{if(!r.sortStatus)r.sortStatus="بانتظار الفرز";if(!r.dispatchStatus)r.dispatchStatus="بانتظار الإحالة";if(!r.deliveredAt&&r.status==="تم التسليم"){let e=(r.events||[]).slice().reverse().find(x=>(x.action||"").includes("تم التسليم"));if(e)r.deliveredAt=e.date;}});
+const localToday=()=>{let d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};const today=localToday();$("created").value=today;
+function persist(){localStorage.setItem(KEY,JSON.stringify(records));render()}
+function options(sel,obj,first){sel.innerHTML=first||"";Object.keys(obj).forEach(k=>{let o=document.createElement("option");o.value=k;o.textContent=k;sel.appendChild(o)})}
+options($("mainOffice"),offices,"<option value=''>اختر المكتب الرئيسي</option>");
+options($("filterOffice"),offices,"<option value=''>كل المكاتب</option>");
+options($("userOffice"),offices,"<option value=''>اختر المكتب</option>");
+Object.values(offices).flat().forEach(b=>{let o=document.createElement("option");o.value="فرع::"+b;o.textContent=b+" (فرع تابع)";$("userOffice").appendChild(o)});
+{let unitOpt=document.createElement("option");unitOpt.value="وحدة الفرز والتوزيع";unitOpt.textContent="وحدة الفرز والتوزيع";$("userOffice").appendChild(unitOpt);}
+options($("sortOfficeFilter"),offices,"<option value=''>جميع المكاتب</option>");
+$("userOffice").value="مكتب بريد غريان الرئيسي";
+function updateBranches(){let office=$("mainOffice").value;$("branch").innerHTML="<option value=''>بدون / المكتب الرئيسي</option>";(offices[office]||[]).forEach(b=>{let o=document.createElement("option");o.value=b;o.textContent=b;$("branch").appendChild(o)})}
+$("mainOffice").addEventListener("change",updateBranches);
+let sortingUnitAuthenticated=false;
+function showPanel(id){document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===id));}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active",x===b));
+ if(b.dataset.tab==="sorting"){
+   // Direct administrative access for the creator / Head of Postal Services Follow-up.
+   sortingUnitAuthenticated=true;showPanel("sorting");renderSorting();return;
+ }
+ showPanel(b.dataset.tab);
+ if(["dashboard","manager","statistics","manage"].includes(b.dataset.tab)){render();renderStatistics();if(b.dataset.tab==="manage")renderManage();}
+ if(b.dataset.tab==="officeAccounts")renderOfficeAccounts();
+ if(b.dataset.tab==="officePortal"){if(activeOfficeAccount)renderOfficePortal();else fillOfficeUsername();}
+});
+function clearForm(){["barcode","sender","recipient","distributor","operator","notes"].forEach(x=>$(x).value="");$("created").value=today;$("mainOffice").value="";updateBranches();$("waybillImage").value="";$("cameraImage").value="";$("galleryImage").value="";$("imagePreview").textContent="لم يتم اختيار صورة بعد.";$("ocrStatus").textContent=""}
+$("clearBtn").onclick=clearForm;
+$("takePhotoBtn").onclick=()=>$("cameraImage").click();
+$("choosePhotoBtn").onclick=()=>$("galleryImage").click();
+function attachSelectedImage(input){
+  input.addEventListener("change",()=>{
+    const f=input.files[0]; if(!f)return;
+    if(!f.type.startsWith("image/")){alert("يرجى اختيار ملف صورة.");input.value="";return}
+    const dt=new DataTransfer();dt.items.add(f);$("waybillImage").files=dt.files;
+    $("imagePreview").textContent="الصورة المختارة: "+f.name;
+    const reader=new FileReader();
+    reader.onload=()=>{
+      $("imagePreview").innerHTML="الصورة المختارة: "+esc(f.name)+'<br><img src="'+reader.result+'" alt="معاينة البوليصة" style="max-width:190px;max-height:190px;object-fit:contain;margin-top:8px;border-radius:8px;border:1px solid #dce5eb">';
+      readWaybillImage(f, reader.result);
+    };
+    reader.readAsDataURL(f);
+  });
+}
+attachSelectedImage($("cameraImage"));attachSelectedImage($("galleryImage"));
+
+async function readWaybillImage(file, dataUrl){
+  $("ocrStatus").textContent="جارٍ قراءة الباركود والبيانات من الصورة... قد يستغرق ذلك بعض الوقت.";
+  let found=[];
+  // Try barcode detection from the selected image.
+  try{
+    if("BarcodeDetector" in window && "createImageBitmap" in window){
+      const bitmap=await createImageBitmap(file);
+      const detector=new BarcodeDetector();
+      const codes=await detector.detect(bitmap);
+      if(codes.length){
+        $("barcode").value=codes[0].rawValue;
+        found.push("تمت قراءة الباركود");
+      }
+    }
+  }catch(e){}
+  // OCR is used as an assisted first read; all extracted fields remain editable for review.
+  try{
+    if(!window.Tesseract) throw new Error("تعذر تحميل محرك القراءة");
+    const result=await Tesseract.recognize(dataUrl,"ara+eng",{
+      logger:m=>{if(m.status==="recognizing text")$("ocrStatus").textContent="جارٍ قراءة النص من الصورة: "+Math.round((m.progress||0)*100)+"٪"}
+    });
+    const text=result.data.text||"";
+    const lines=text.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+    const norm=s=>s.replace(/[إأآٱ]/g,"ا").replace(/ى/g,"ي").replace(/[ـ]/g,"").replace(/\s+/g," ").trim();
+    function valueAfterLabel(labels){
+      for(let i=0;i<lines.length;i++){
+        const line=norm(lines[i]);
+        for(const label of labels){
+          const p=line.indexOf(norm(label));
+          if(p>=0){
+            let val=line.slice(p+norm(label).length).replace(/^\s*[:：\-–]?\s*/,"").trim();
+            if(val.length>1)return val;
+            if(lines[i+1] && !/^(المرسل|المستلم|التاريخ|رقم)/.test(norm(lines[i+1])))return lines[i+1].trim();
+          }
+        }
+      }
+      return "";
+    }
+    const sender=valueAfterLabel(["المرسل"]);
+    const recipient=valueAfterLabel(["المستلم"]);
+    const barcode=valueAfterLabel(["رقم البوليصة","رقم الارسالية","رقم الإرسالية","الباركود","رقم"]);
+    if(sender){$("sender").value=sender;found.push("المرسل")}
+    if(recipient){$("recipient").value=recipient;found.push("المستلم")}
+    if(barcode && !$("barcode").value){$("barcode").value=barcode;found.push("رقم البوليصة")}
+    const dateMatch=text.match(/(?:20\d{2}|19\d{2})[\/\-.年]\d{1,2}[\/\-.年]\d{1,2}|\d{1,2}[\/\-.]\d{1,2}[\/\-.](?:20\d{2}|19\d{2})/);
+    if(dateMatch){
+      const p=dateMatch[0].split(/[\/\-.]/);
+      let iso="";
+      if(p[0].length===4)iso=p[0]+"-"+p[1].padStart(2,"0")+"-"+p[2].padStart(2,"0");
+      else iso=p[2]+"-"+p[1].padStart(2,"0")+"-"+p[0].padStart(2,"0");
+      if(!isNaN(Date.parse(iso)))$("created").value=iso;
+    }
+    $("ocrStatus").textContent=found.length
+      ?"اكتملت محاولة القراءة. الحقول التي تم التعرف عليها: "+found.join("، ")+". راجع البيانات وصححها قبل الحفظ."
+      :"تم تحميل الصورة، لكن لم تُقرأ الحقول بوضوح. أدخل البيانات يدوياً مع بقاء الصورة مرفقة.";
+  }catch(e){
+    $("ocrStatus").textContent="تعذرت القراءة الآلية. تأكد من اتصال الإنترنت، أو أدخل البيانات يدوياً؛ الصورة ما زالت مرفقة.";
+  }
+}
+$("saveBtn").onclick=async()=>{
+let barcode=$("barcode").value.trim(),sender=$("sender").value.trim(),recipient=$("recipient").value.trim(),created=$("created").value,office=$("mainOffice").value,file=$("waybillImage").files[0];
+if(!barcode||!sender||!recipient||!created||!office||!file){$("intakeMsg").textContent="يرجى تعبئة الحقول المطلوبة وإرفاق صورة أصل البوليصة.";return}
+if(records.some(r=>r.barcode===barcode)){$("intakeMsg").textContent="هذا الباركود مسجل مسبقاً. لا يمكن تكرار التسجيل.";return}
+let image=await new Promise((resolve,reject)=>{let rd=new FileReader();rd.onload=()=>resolve(rd.result);rd.onerror=reject;rd.readAsDataURL(file)});
+records.unshift({id:Date.now(),barcode,sender,recipient,created,office,branch:$("branch").value,distributor:$("distributor").value.trim(),operator:$("operator").value.trim(),notes:$("notes").value.trim(),image,status:"محالة إلى المكتب",sortStatus:"بانتظار الفرز",dispatchStatus:"بانتظار الإحالة",registered:new Date().toISOString(),deliveredAt:null,events:[{date:new Date().toISOString(),by:$("operator").value.trim()||"غرفة العمليات",action:"تسجيل وإحالة البوليصة"}]});
+persist();$("intakeMsg").textContent="تم تسجيل البوليصة وإحالتها بنجاح في هذا الجهاز.";clearForm()
+};
+function statusTag(s,record){let c=s==="تم التسليم"?"green":s==="متعذر التسليم"?"red":"yellow";let label=s;if(record&&s!=="تم التسليم"&&daysBetween(record.registered,new Date())>3){c="red";label="متأخرة — أكثر من 3 أيام"}return `<span class="tag ${c}">${label}</span>`}
+function showRecord(r){
+if(!r){$("recordResult").innerHTML='<div class="result">لم يتم العثور على بوليصة بهذا الرقم في سجلات هذا الجهاز.</div>';return}
+$("recordResult").innerHTML=`<div class="result"><b>تم العثور على البوليصة</b><br>الباركود: ${esc(r.barcode)}<br>المرسل: ${esc(r.sender)}<br>المستلم: ${esc(r.recipient)}<br>تاريخ الإنشاء: ${esc(r.created)}<br>المكتب: ${esc(r.office)}<br>الفرع: ${esc(r.branch||"—")}<br>المندوب: ${esc(r.distributor||"—")}<br>الحالة: ${statusTag(r.status,r)}<br>تاريخ التسجيل الآلي: ${new Date(r.registered).toLocaleString("ar-LY")}<br>تاريخ التسليم الآلي: ${r.deliveredAt?new Date(r.deliveredAt).toLocaleString("ar-LY"):"لم يتم التسليم بعد"}<br>مدة التسليم: ${r.deliveredAt?Math.ceil((new Date(r.deliveredAt)-new Date(r.registered))/86400000)+" يوم":"قيد الاحتساب"}<br><b>صورة أصل البوليصة:</b><img src="${r.image}" alt="صورة البوليصة">${r.proof?'<br><b>صورة إثبات التسليم:</b><img src="'+r.proof+'" alt="إثبات التسليم">':''}<hr><label>تحديث الحالة</label><select id="newStatus"><option>تم الاستلام بالمكتب</option><option>قيد التوزيع</option><option>تم التسليم</option><option>متعذر التسليم</option></select><label style="margin-top:9px">اسم الموظف</label><input id="updateBy" placeholder="اسم الموظف الذي حدّث الحالة"><label style="margin-top:9px">ملاحظة / سبب تعذر التسليم</label><textarea id="updateNote"></textarea><label style="margin-top:9px">صورة إثبات التسليم</label>
+<div class="actions" style="margin-top:4px">
+<button type="button" class="btn" onclick="document.getElementById('proofCamera').click()">📷 تصوير إثبات التسليم</button>
+<button type="button" class="btn secondary" onclick="document.getElementById('proofGallery').click()">🖼️ اختيار من الاستوديو</button>
+</div>
+<input id="proofCamera" type="file" accept="image/*" capture="environment" hidden>
+<input id="proofGallery" type="file" accept="image/*" hidden>
+<input id="proof" type="file" accept="image/*" hidden>
+<div id="proofPreview" class="muted">لم يتم اختيار إثبات التسليم بعد.</div>
+<div class="actions"><button class="btn" onclick="updateRecord(${r.id})">حفظ تحديث الحالة</button></div><div class="muted">سجل الإجراءات: ${(r.events||[]).map(e=>esc(e.action)+" — "+esc(e.by)+" — "+new Date(e.date).toLocaleString("ar-LY")).join("<br>")}</div></div>`;
+}
+function setupProofInputs(){
+  ["proofCamera","proofGallery"].forEach(id=>{
+    const el=$(id); if(!el || el.dataset.bound)return; el.dataset.bound="1";
+    el.addEventListener("change",()=>{
+      const f=el.files[0]; if(!f)return;
+      if(!f.type.startsWith("image/")){alert("يرجى اختيار صورة إثبات.");el.value="";return}
+      const dt=new DataTransfer();dt.items.add(f);$("proof").files=dt.files;
+      const rd=new FileReader();rd.onload=()=>{$("proofPreview").innerHTML="إثبات التسليم المختار: "+esc(f.name)+'<br><img src="'+rd.result+'" alt="إثبات التسليم" style="max-width:190px;max-height:190px;object-fit:contain;margin-top:8px;border-radius:8px;border:1px solid #dce5eb">'};rd.readAsDataURL(f);
+    });
+  });
+}
+const originalShowRecord=showRecord;
+showRecord=function(r){originalShowRecord(r);setupProofInputs();};
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+$("findBtn").onclick=()=>{let n=$("lookupBarcode").value.trim();showRecord(records.find(r=>r.barcode===n))};
+$("lookupBarcode").addEventListener("keydown",e=>{if(e.key==="Enter")$("findBtn").click()});
+window.updateRecord=async id=>{let r=records.find(x=>x.id===id);if(!r)return;let status=$("newStatus").value,by=$("updateBy").value.trim()||"موظف المكتب",note=$("updateNote").value.trim(),proofFile=$("proof").files[0];let proof=null;
+if(status==="تم التسليم"&&!proofFile&&!r.proof){alert("لإثبات التسليم، يرجى تصوير صورة الإثبات أو اختيارها من الاستوديو.");return}
+if(proofFile)proof=await new Promise(resolve=>{let rd=new FileReader();rd.onload=()=>resolve(rd.result);rd.readAsDataURL(proofFile)});
+const eventTime=new Date().toISOString();r.status=status;if(status==="تم التسليم"&&!r.deliveredAt)r.deliveredAt=eventTime;r.events.push({date:eventTime,by,action:"تحديث الحالة إلى: "+status+(status==="تم التسليم"?" — سُجل تاريخ التسليم آلياً":"")+(note?" — "+note:"")+(proof?" — أُرفقت صورة إثبات التسليم":"")});if(proof)r.proof=proof;persist();showRecord(r)};
+
+function renderSorting(){
+ const q=($("sortSearch")?.value||"").trim().toLowerCase(),off=$("sortOfficeFilter")?.value||"";
+ const list=records.filter(r=>(!off||r.office===off)&&(!q||[r.barcode,r.sender,r.recipient,r.office,r.branch].join(" ").toLowerCase().includes(q)));
+ const pending=records.filter(r=>r.status!=="تم التسليم");
+ const late=pending.filter(r=>daysBetween(r.registered,new Date())>3);
+ $("sortTotal").textContent=records.length;
+ $("sortWaiting").textContent=pending.length;
+ $("sortDone").textContent=records.filter(r=>r.status==="تم التسليم").length;
+ $("sortDispatched").textContent=late.length;
+ $("sortingRows").innerHTML=list.map(r=>{
+   const overdue=r.status!=="تم التسليم"&&daysBetween(r.registered,new Date())>3;
+   const tag=statusTag(r.status,r);
+   const duration=r.deliveredAt?durationLabel(daysBetween(r.registered,r.deliveredAt)):durationLabel(daysBetween(r.registered,new Date()));
+   return `<tr><td>${esc(r.barcode)}</td><td>${esc(r.sender)}</td><td>${esc(r.recipient)}</td><td>${esc(r.office)}</td><td>${esc(r.branch||"—")}</td><td>${tag}</td><td>${new Date(r.registered).toLocaleString("ar-LY")}</td><td>${r.deliveredAt?new Date(r.deliveredAt).toLocaleString("ar-LY"):"لم يتم التسليم"}</td><td>${r.proof?'<span class="tag green">مرفق</span>':'—'}</td><td>${overdue?'<span class="tag red">متأخرة</span>':esc(duration)}</td></tr>`
+ }).join("")||'<tr><td colspan="10">لا توجد بوالص مطابقة.</td></tr>';
+}
+$("sortSearch").addEventListener("input",renderSorting);$("sortOfficeFilter").addEventListener("change",renderSorting);
+$("sortingPrintBtn").onclick=()=>{window.print()};
+$("sortingCsvBtn").onclick=()=>csvDownload("تقرير-متابعة-وحدة-الفرز-والتوزيع.csv",[["رقم البوليصة","المرسل","المستلم","المكتب","الفرع","الحالة","تاريخ التسجيل","تاريخ التسليم","إثبات التسليم"],...records.map(r=>[r.barcode,r.sender,r.recipient,r.office,r.branch||"",r.status,new Date(r.registered).toLocaleString("ar-LY"),r.deliveredAt?new Date(r.deliveredAt).toLocaleString("ar-LY"):"",r.proof?"مرفق":"غير مرفق"])]);
+
+
+// البحث عن بوليصة مسلّمة وعرض صورها وطباعتها دون تعديل السجل.
+function findDeliveredWaybill(){
+ const code=$("deliveredSearchBarcode").value.trim();
+ const out=$("deliveredSearchResult");
+ if(!code){out.innerHTML='<div class="result">يرجى كتابة رقم البوليصة أولاً.</div>';return}
+ const r=records.find(x=>String(x.barcode||"").trim()===code);
+ if(!r){out.innerHTML='<div class="result">لم يتم العثور على بوليصة بهذا الرقم.</div>';return}
+ if(r.status!=="تم التسليم") {out.innerHTML='<div class="result">تم العثور على البوليصة، لكن حالتها الحالية ليست «تم التسليم». لا يمكن طباعتها من سجل البوالص المسلّمة.</div>';return}
+ const image=r.image||"", proof=r.proof||"";
+ out.innerHTML=`<div class="result"><b>تم العثور على بوليصة مسلّمة</b><div class="grid" style="margin-top:8px"><div>رقم البوليصة: <b>${esc(r.barcode)}</b></div><div>المكتب: <b>${esc(r.office)}</b></div><div>الفرع: ${esc(r.branch||"—")}</div><div>المرسل: ${esc(r.sender)}</div><div>المستلم: ${esc(r.recipient)}</div><div>المندوب: ${esc(r.distributor||"—")}</div><div>تاريخ التسجيل: ${new Date(r.registered).toLocaleString("ar-LY")}</div><div>تاريخ التسليم: ${r.deliveredAt?new Date(r.deliveredAt).toLocaleString("ar-LY"):"غير مسجل"}</div></div><div style="margin-top:12px"><b>صورة أصل البوليصة</b>${image?`<img src="${image}" alt="صورة أصل البوليصة" style="max-width:100%;max-height:300px;object-fit:contain">`:'<p class="muted">لا توجد صورة أصل محفوظة لهذا السجل.</p>'}</div><div style="margin-top:12px"><b>إثبات التسليم</b>${proof?`<img src="${proof}" alt="صورة إثبات التسليم" style="max-width:100%;max-height:300px;object-fit:contain">`:'<p class="muted">لا توجد صورة إثبات تسليم مرفقة.</p>'}</div><div class="actions"><button class="btn" type="button" id="printDeliveredWaybillBtn">🖨️ طباعة البوليصة وإثبات التسليم</button></div></div>`;
+ $("printDeliveredWaybillBtn").onclick=()=>printDeliveredWaybill(r);
+}
+function printDeliveredWaybill(r){
+ const sheet=document.createElement("div");sheet.id="waybillPrintSheet";
+ const img=(src,label)=>src?`<div class="print-photo"><b>${label}</b><img src="${src}" alt="${label}"></div>`:`<div class="print-photo"><b>${label}</b><p>لا توجد صورة مرفقة.</p></div>`;
+ sheet.innerHTML=`<h1>منظومة البريد الحكومي - منطقة الخدمات البريدية الجبل الغربي</h1><h2 style="text-align:center">نسخة بوليصة مسلّمة</h2><div class="print-meta"><b>رقم البوليصة:</b> ${esc(r.barcode)}<br><b>المرسل:</b> ${esc(r.sender)}<br><b>المستلم:</b> ${esc(r.recipient)}<br><b>المكتب:</b> ${esc(r.office)}<br><b>الفرع:</b> ${esc(r.branch||"—")}<br><b>المندوب:</b> ${esc(r.distributor||"—")}<br><b>تاريخ التسجيل:</b> ${new Date(r.registered).toLocaleString("ar-LY")}<br><b>تاريخ التسليم:</b> ${r.deliveredAt?new Date(r.deliveredAt).toLocaleString("ar-LY"):"غير مسجل"}<br><b>الحالة:</b> تم التسليم</div>${img(r.image,"صورة أصل البوليصة")}${img(r.proof,"صورة إثبات التسليم")}`;
+ document.body.appendChild(sheet);document.body.classList.add("print-waybill");
+ const cleanup=()=>{document.body.classList.remove("print-waybill");sheet.remove();window.removeEventListener("afterprint",cleanup)};
+ window.addEventListener("afterprint",cleanup);window.print();setTimeout(()=>{if(document.body.classList.contains("print-waybill"))cleanup()},1800);
+}
+$("deliveredSearchBtn").onclick=findDeliveredWaybill;
+$("deliveredSearchBarcode").addEventListener("keydown",e=>{if(e.key==="Enter")findDeliveredWaybill()});
+
+function renderManage(){
+ const q=($("manageSearch")?.value||"").trim().toLowerCase();
+ const rows=records.filter(r=>!q||[r.barcode,r.sender,r.recipient,r.office].join(" ").toLowerCase().includes(q));
+ $("manageRows").innerHTML=rows.map(r=>`<tr><td>${esc(r.barcode)}</td><td>${esc(r.sender)}</td><td>${esc(r.recipient)}</td><td>${esc(r.office)}</td><td>${statusTag(r.status,r)}</td><td><button class="btn secondary" onclick="editWaybill(${r.id})">تعديل</button> <button class="btn" style="background:#a83232" onclick="deleteWaybill(${r.id})">حذف</button></td></tr>`).join("")||'<tr><td colspan="6">لا توجد بوالص مطابقة.</td></tr>';
+ renderAudit();
+}
+function renderAudit(){if(!$("auditRows"))return;$("auditRows").innerHTML=auditLog.slice(0,100).map(a=>`<tr><td>${new Date(a.date).toLocaleString("ar-LY")}</td><td>${esc(a.action)}</td><td>${esc(a.barcode)}</td><td>${esc(a.by)}</td><td>${esc(a.details)}</td></tr>`).join("")||'<tr><td colspan="5">لا توجد تعديلات مسجلة.</td></tr>'}
+window.editWaybill=id=>{const r=records.find(x=>x.id===id);if(!r)return;$("editRecordId").value=id;$("editBarcode").value=r.barcode;$("editCreated").value=r.created||"";$("editSender").value=r.sender;$("editRecipient").value=r.recipient;$("editOffice").value=r.office;$("editBranch").value=r.branch||"";$("editDistributor").value=r.distributor||"";$("editStatus").value=r.status;$("editReason").value="";$("editWaybillBox").classList.remove("hidden");$("editWaybillBox").scrollIntoView({behavior:"smooth",block:"start"})};
+window.deleteWaybill=id=>{const r=records.find(x=>x.id===id);if(!r)return;const reason=prompt("اكتب سبب حذف البوليصة (تجريبية / مكررة / خطأ إدخال):");if(reason===null)return;if(!reason.trim()){alert("يجب كتابة سبب الحذف.");return}if(!confirm("تأكيد حذف البوليصة رقم "+r.barcode+"؟ لا يمكن التراجع عن الحذف في هذه النسخة المحلية."))return;records=records.filter(x=>x.id!==id);audit("حذف بوليصة",r,reason.trim());persist();renderManage();$("manageMsg").textContent="تم حذف السجل من هذا الجهاز وتسجيل العملية في سجل التعديلات."};
+$("manageSearch").addEventListener("input",renderManage);$("refreshManage").onclick=renderManage;
+$("editOffice").innerHTML=Object.keys(offices).map(k=>`<option>${esc(k)}</option>`).join("");
+$("cancelWaybillEdit").onclick=()=>$("editWaybillBox").classList.add("hidden");
+$("saveWaybillEdit").onclick=()=>{const id=Number($("editRecordId").value),r=records.find(x=>x.id===id);if(!r)return;const barcode=$("editBarcode").value.trim(),sender=$("editSender").value.trim(),recipient=$("editRecipient").value.trim(),reason=$("editReason").value.trim();if(!barcode||!sender||!recipient||!reason){alert("أكمل رقم البوليصة والمرسل والمستلم وسبب التعديل.");return}if(records.some(x=>x.id!==id&&x.barcode===barcode)){alert("رقم البوليصة مستخدم في سجل آخر.");return}const before={barcode:r.barcode,sender:r.sender,recipient:r.recipient,office:r.office,status:r.status};Object.assign(r,{barcode,created:$("editCreated").value,sender,recipient,office:$("editOffice").value,branch:$("editBranch").value.trim(),distributor:$("editDistributor").value.trim(),status:$("editStatus").value});r.events=r.events||[];r.events.push({date:new Date().toISOString(),by:"رئيس قسم متابعة الخدمات",action:"تعديل بيانات البوليصة — "+reason});audit("تعديل بيانات بوليصة",r,reason+" | قبل: "+JSON.stringify(before)+" | بعد: "+JSON.stringify({barcode:r.barcode,sender:r.sender,recipient:r.recipient,office:r.office,status:r.status}));persist();renderManage();$("editWaybillBox").classList.add("hidden");$("manageMsg").textContent="تم حفظ التعديلات وتسجيلها في سجل الرقابة."};
+$("deleteAllRecords").onclick=()=>{if(!records.length){alert("لا توجد بوالص لحذفها.");return}const phrase=prompt("لحذف جميع السجلات التجريبية، اكتب: حذف التجربة");if(phrase!=="حذف التجربة")return;const count=records.length;records=[];audit("حذف جميع البوالص",null,"حذف جماعي لعدد "+count+" سجل تجريبي");persist();renderManage();$("manageMsg").textContent="تم حذف "+count+" سجل من هذا الجهاز."};
+
+$("cameraBtn").onclick=async()=>{if(!("BarcodeDetector" in window)){ $("scanMsg").textContent="ماسح الكاميرا غير مدعوم في هذا المتصفح. استخدم قارئ باركود أو الإدخال اليدوي.";return}try{let stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});let video=document.createElement("video");video.srcObject=stream;video.setAttribute("playsinline","");await video.play();let box=document.createElement("div");box.className="result";box.appendChild(video);$("scanMsg").innerHTML="وجّه الكاميرا نحو الباركود، وسيتم إدخال الرقم عند قراءته."; $("scanMsg").appendChild(box);let detector=new BarcodeDetector();let scan=async()=>{try{let codes=await detector.detect(video);if(codes.length){$("lookupBarcode").value=codes[0].rawValue;stream.getTracks().forEach(t=>t.stop());$("findBtn").click();return}}catch(e){}requestAnimationFrame(scan)};scan()}catch(e){$("scanMsg").textContent="تعذر تشغيل الكاميرا. تحقق من إذن الكاميرا أو استخدم الإدخال اليدوي."}};
+function daysBetween(a,b){return Math.max(0,(new Date(b)-new Date(a))/86400000)}
+function durationLabel(days){return days==null?"—":days.toFixed(1)+" يوم"}
+function reportWindow(){let period=$("reportPeriod").value,base=new Date(($('reportDate').value||today)+"T12:00:00");let start=new Date(base),end=new Date(base);if(period==="day"){start.setHours(0,0,0,0);end.setHours(23,59,59,999)}else if(period==="week"){let day=(base.getDay()+6)%7;start.setDate(base.getDate()-day);start.setHours(0,0,0,0);end=new Date(start);end.setDate(start.getDate()+7);end.setMilliseconds(-1)}else if(period==="month"){start=new Date(base.getFullYear(),base.getMonth(),1);end=new Date(base.getFullYear(),base.getMonth()+1,1);end.setMilliseconds(-1)}else return null;return {start,end}}
+function render(){let q=$("filterText").value.trim().toLowerCase(),off=$("filterOffice").value,filtered=records.filter(r=>(!off||r.office===off)&&(!q||[r.barcode,r.sender,r.recipient].join(" ").toLowerCase().includes(q)));$("total").textContent=records.length;$("pending").textContent=records.filter(r=>r.status!=="تم التسليم").length;$("delivered").textContent=records.filter(r=>r.status==="تم التسليم").length;$("late").textContent=records.filter(r=>r.status!=="تم التسليم"&&daysBetween(r.registered,new Date())>3).length;$("rows").innerHTML=filtered.map(r=>`<tr><td>${esc(r.barcode)}</td><td>${esc(r.sender)}</td><td>${esc(r.recipient)}</td><td>${esc(r.office)}</td><td>${esc(r.branch||"—")}</td><td>${statusTag(r.status,r)}</td><td>${r.proof?'<span class="tag green">مرفق</span>':'—'}</td><td>${new Date(r.registered).toLocaleDateString("ar-LY")}</td><td><button class="btn secondary" onclick="openLookup('${esc(r.barcode)}')">عرض</button></td></tr>`).join("")||'<tr><td colspan="9">لا توجد سجلات مطابقة.</td></tr>';renderReports()}
+
+function renderReports(){
+  let win=reportWindow();
+  const inRange=(iso)=>!win||(iso&&new Date(iso)>=win.start&&new Date(iso)<=win.end);
+  let registered=records.filter(r=>inRange(r.registered));
+  let deliveredIn=records.filter(r=>r.deliveredAt&&inRange(r.deliveredAt));
+  let deliveredFromRegistered=registered.filter(r=>r.status==="تم التسليم");
+  $("periodTotal").textContent=registered.length;
+  $("periodDelivered").textContent=deliveredIn.length;
+  $("periodRate").textContent=(registered.length?Math.round(deliveredFromRegistered.length/registered.length*100):0)+"%";
+  let durations=deliveredFromRegistered.filter(r=>r.deliveredAt).map(r=>daysBetween(r.registered,r.deliveredAt));
+  $("periodAverage").textContent=durations.length?durationLabel(durations.reduce((a,b)=>a+b,0)/durations.length):"—";
+  let stats=Object.keys(offices).map(office=>{
+    let arr=records.filter(r=>r.office===office&&inRange(r.registered));
+    let del=arr.filter(r=>r.status==="تم التسليم");
+    let times=del.filter(r=>r.deliveredAt).map(r=>daysBetween(r.registered,r.deliveredAt));
+    let avg=times.length?times.reduce((a,b)=>a+b,0)/times.length:null;
+    let late=arr.filter(r=>r.status!=="تم التسليم"&&daysBetween(r.registered,new Date())>3).length;
+    return {office,total:arr.length,del:del.length,rate:arr.length?del.length/arr.length*100:0,avg,late,pending:arr.filter(r=>r.status!=="تم التسليم").length};
+  }).sort((a,b)=>b.rate-a.rate||(a.avg??999)-(b.avg??999));
+  $("officeReportRows").innerHTML=stats.map((x,i)=>`<tr class="${i===0&&x.total?"rank1":""}"><td>${x.total?(i===0?"🥇 الأول":i+1):"—"}</td><td>${esc(x.office)}</td><td>${x.total}</td><td>${x.del}</td><td><b>${x.rate.toFixed(1)}%</b></td><td>${durationLabel(x.avg)}</td><td>${x.late} متأخرة / ${x.pending} قيد الإجراء</td></tr>`).join("");
+  renderManager();
+  renderStatistics();
+}
+
+function getRangeFor(period,dateValue){
+  const base=new Date((dateValue||today)+"T12:00:00"),start=new Date(base),end=new Date(base);
+  if(period==="day"){start.setHours(0,0,0,0);end.setHours(23,59,59,999)}
+  else if(period==="week"){let day=(base.getDay()+6)%7;start.setDate(base.getDate()-day);start.setHours(0,0,0,0);end.setTime(start.getTime());end.setDate(start.getDate()+7);end.setMilliseconds(-1)}
+  else if(period==="month"){start.setDate(1);start.setHours(0,0,0,0);end.setFullYear(base.getFullYear(),base.getMonth()+1,0);end.setHours(23,59,59,999)}
+  else return null;
+  return {start,end};
+}
+function rangeCheck(date,win){return !win||(date&&new Date(date)>=win.start&&new Date(date)<=win.end)}
+function managerStats(){
+  return Object.keys(offices).map(office=>{
+    const a=records.filter(r=>r.office===office),d=a.filter(r=>r.status==="تم التسليم");
+    const times=d.filter(r=>r.deliveredAt).map(r=>daysBetween(r.registered,r.deliveredAt));
+    return {office,total:a.length,del:d.length,rate:a.length?d.length/a.length*100:0,avg:times.length?times.reduce((x,y)=>x+y,0)/times.length:null,late:a.filter(r=>r.status!=="تم التسليم"&&daysBetween(r.registered,new Date())>3).length,pending:a.filter(r=>r.status!=="تم التسليم").length};
+  });
+}
+function renderManager(){
+  const all=records,del=all.filter(r=>r.status==="تم التسليم"),pending=all.filter(r=>r.status!=="تم التسليم"),late=pending.filter(r=>daysBetween(r.registered,new Date())>3);
+  $("mTotal").textContent=all.length;$("mPending").textContent=pending.length;$("mDelivered").textContent=del.length;$("mLate").textContent=late.length;
+  $("mRate").textContent=(all.length?(del.length/all.length*100):0).toFixed(1)+"%";
+  const ds=del.filter(r=>r.deliveredAt).map(r=>daysBetween(r.registered,r.deliveredAt));
+  $("mAverage").textContent=ds.length?durationLabel(ds.reduce((a,b)=>a+b,0)/ds.length):"—";
+  $("managerOfficeRows").innerHTML=managerStats().sort((a,b)=>b.rate-a.rate||(a.avg??999)-(b.avg??999)).map(x=>`<tr><td>${esc(x.office)}</td><td>${x.total}</td><td>${x.del}</td><td>${x.rate.toFixed(1)}%</td><td>${durationLabel(x.avg)}</td><td>${x.late}</td><td>${x.pending}</td></tr>`).join("");
+}
+function showManagerRecords(kind){
+  let list=records;
+  if(kind==="pending")list=records.filter(r=>r.status!=="تم التسليم");
+  if(kind==="delivered")list=records.filter(r=>r.status==="تم التسليم");
+  if(kind==="late")list=records.filter(r=>r.status!=="تم التسليم"&&daysBetween(r.registered,new Date())>3);
+  $("managerListTitle").textContent=kind==="late"?"تفاصيل البوالص المتأخرة":kind==="delivered"?"تفاصيل البوالص التي تم تسليمها":kind==="pending"?"تفاصيل البوالص قيد الإجراء":"جميع البوالص المسجلة";
+  $("managerRecordRows").innerHTML=list.map(r=>`<tr><td>${esc(r.barcode)}</td><td>${esc(r.office)}</td><td>${esc(r.sender)}</td><td>${esc(r.recipient)}</td><td>${new Date(r.registered).toLocaleString("ar-LY")}</td><td>${statusTag(r.status,r)}</td><td>${r.deliveredAt?durationLabel(daysBetween(r.registered,r.deliveredAt)):durationLabel(daysBetween(r.registered,new Date()))}</td></tr>`).join("")||'<tr><td colspan="7">لا توجد بوالص ضمن هذا التصنيف.</td></tr>';
+}
+document.querySelectorAll("[data-manager-filter]").forEach(el=>el.addEventListener("click",()=>showManagerRecords(el.dataset.managerFilter)));
+function renderStatistics(){
+  if(!$("statsOffice"))return;
+  let office=$("statsOffice").value,win=getRangeFor($("statsPeriod").value,$("statsDate").value);
+  let registered=records.filter(r=>(!office||r.office===office)&&rangeCheck(r.registered,win));
+  let delivered=records.filter(r=>(!office||r.office===office)&&r.deliveredAt&&rangeCheck(r.deliveredAt,win));
+  let deliveredOfRegistered=registered.filter(r=>r.status==="تم التسليم");
+  $("sTotal").textContent=registered.length;
+  $("sDelivered").textContent=delivered.length;
+  $("sRate").textContent=(registered.length?deliveredOfRegistered.length/registered.length*100:0).toFixed(1)+"%";
+  let times=deliveredOfRegistered.filter(r=>r.deliveredAt).map(r=>daysBetween(r.registered,r.deliveredAt));
+  $("sAverage").textContent=times.length?durationLabel(times.reduce((a,b)=>a+b,0)/times.length):"—";
+  $("statsHeading").textContent=office?("تفاصيل بوالص "+office):"التقرير المجمع لجميع المكاتب";
+  $("statsRows").innerHTML=registered.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.barcode)}</td><td>${esc(r.office)}</td><td>${new Date(r.registered).toLocaleString("ar-LY")}</td><td>${r.deliveredAt?new Date(r.deliveredAt).toLocaleString("ar-LY"):"—"}</td><td>${r.deliveredAt?durationLabel(daysBetween(r.registered,r.deliveredAt)):"—"}</td><td>${statusTag(r.status,r)}</td></tr>`).join("")||'<tr><td colspan="7">لا توجد سجلات في الفترة المحددة.</td></tr>';
+}
+function csvDownload(filename,rows){
+  const csv="\uFEFF"+rows.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function statsExportRows(){
+  const office=$("statsOffice").value,win=getRangeFor($("statsPeriod").value,$("statsDate").value);
+  return records.filter(r=>(!office||r.office===office)&&rangeCheck(r.registered,win)).map((r,i)=>[i+1,r.barcode,r.office,r.branch||"",r.sender,r.recipient,new Date(r.registered).toLocaleString("ar-LY"),r.deliveredAt?new Date(r.deliveredAt).toLocaleString("ar-LY"):"",r.deliveredAt?durationLabel(daysBetween(r.registered,r.deliveredAt)):"",r.status]);
+}
+function reportPrint(){
+  document.body.classList.add("print-stats");
+  window.print();
+  setTimeout(()=>document.body.classList.remove("print-stats"),700);
+}
+$("statsOffice").innerHTML='<option value="">جميع المكاتب</option>'+Object.keys(offices).map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join("");
+$("statsDate").value=today;
+["statsOffice","statsPeriod","statsDate"].forEach(id=>$(id).addEventListener("change",renderStatistics));
+$("exportPdfBtn").onclick=reportPrint;
+$("exportCsvBtn").onclick=()=>csvDownload("تقرير-البريد-الحكومي.csv",[["م","رقم البوليصة","المكتب","الفرع","المرسل","المستلم","تاريخ التسجيل","تاريخ التسليم","مدة التسليم","الحالة"],...statsExportRows()]);
+$("exportAllCsvBtn").onclick=()=>csvDownload("التقرير-المجمع-للمكاتب.csv",[["م","رقم البوليصة","المكتب","الفرع","المرسل","المستلم","تاريخ التسجيل","تاريخ التسليم","مدة التسليم","الحالة"],...records.map((r,i)=>[i+1,r.barcode,r.office,r.branch||"",r.sender,r.recipient,new Date(r.registered).toLocaleString("ar-LY"),r.deliveredAt?new Date(r.deliveredAt).toLocaleString("ar-LY"):"",r.deliveredAt?durationLabel(daysBetween(r.registered,r.deliveredAt)):"",r.status])]);
+window.openLookup=code=>{document.querySelector('[data-tab="lookup"]').click();$("lookupBarcode").value=code;$("findBtn").click()};
+$("filterOffice").onchange=render;$("filterText").oninput=render;
+$("exportBtn").onclick=()=>{let blob=new Blob([JSON.stringify(records)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="نسخة-احتياطية-البريد-الحكومي.json";a.click();URL.revokeObjectURL(a.href)};
+$("importFile").onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let data=JSON.parse(await f.text());if(!Array.isArray(data))throw 0;let map=new Map(records.map(r=>[r.barcode,r]));data.forEach(r=>{if(r.barcode)map.set(r.barcode,r)});records=[...map.values()];persist();alert("تم استيراد النسخة الاحتياطية ودمج السجلات حسب رقم الباركود.")}catch(err){alert("تعذر قراءة ملف النسخة الاحتياطية.")}};
+$("reportDate").value=today;$("reportPeriod").onchange=renderReports;$("reportDate").onchange=renderReports;$("printReportBtn").onclick=()=>{document.querySelector('[data-tab="statistics"]').click();reportPrint()};
+
+// إدارة الحسابات المحلية: مصدر موحد لكل الأدوار، بما فيها وحدة الفرز والتوزيع.
+const SORTING_ACCOUNT_KEY="postal_sorting_unit_account_v1";
+try{
+ const oldAcc=JSON.parse(localStorage.getItem(SORTING_ACCOUNT_KEY)||"null");
+ if(oldAcc && oldAcc.username){
+  let prior=users.find(u=>u.role==="الفرز والتوزيع" || u.login===oldAcc.username);
+  if(prior){prior.role="الفرز والتوزيع";prior.office="وحدة الفرز والتوزيع";if(!prior.password)prior.password=oldAcc.password||"";}
+  else users.push({name:"رئيس وحدة الفرز والتوزيع",login:oldAcc.username,password:oldAcc.password||"",office:"وحدة الفرز والتوزيع",role:"الفرز والتوزيع",active:"نشط",notes:"تم ترحيله تلقائياً من إعداد الدخول السابق"});
+  localStorage.setItem(USERS_KEY,JSON.stringify(users));
+ }
+}catch(e){}
+function normLogin(v){return String(v??'').trim().toLocaleLowerCase('en-US')}
+function isSortingAccount(u){return !!u && (u.role==='الفرز والتوزيع' || u.office==='وحدة الفرز والتوزيع')}
+// Passwords are stored as PBKDF2-SHA-256 hashes, never as readable text.
+async function makePasswordHash(password){
+ if(!window.crypto?.subtle) throw new Error('المتصفح لا يدعم التخزين الآمن هنا. افتح المنظومة عبر اتصال محلي آمن (localhost/HTTPS).');
+ const enc=new TextEncoder(),salt=crypto.getRandomValues(new Uint8Array(16));
+ const key=await crypto.subtle.importKey('raw',enc.encode(password),'PBKDF2',false,['deriveBits']);
+ const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt,iterations:210000,hash:'SHA-256'},key,256);
+ return {passwordHash:Array.from(new Uint8Array(bits)).map(x=>x.toString(16).padStart(2,'0')).join(''),passwordSalt:Array.from(salt).map(x=>x.toString(16).padStart(2,'0')).join(''),passwordAlgorithm:'PBKDF2-SHA256',passwordIterations:210000};
+}
+async function verifyPassword(u,password){
+ if(u.passwordHash&&u.passwordSalt){
+  const enc=new TextEncoder(),salt=new Uint8Array((u.passwordSalt.match(/../g)||[]).map(x=>parseInt(x,16)));
+  const key=await crypto.subtle.importKey('raw',enc.encode(password),'PBKDF2',false,['deriveBits']);
+  const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt,iterations:u.passwordIterations||210000,hash:'SHA-256'},key,256);
+  const got=Array.from(new Uint8Array(bits)).map(x=>x.toString(16).padStart(2,'0')).join('');
+  return got===u.passwordHash;
+ }
+ // One-time migration for accounts created by earlier demo versions.
+ if(typeof u.password==='string' && u.password===password){const h=await makePasswordHash(password);Object.assign(u,h);delete u.password;localStorage.setItem(USERS_KEY,JSON.stringify(users));return true;}
+ return false;
+}
+function persistUsers(){localStorage.setItem(USERS_KEY,JSON.stringify(users));renderUsers()}
+function renderUsers(){
+ if(!$('userRows'))return;
+ $('userRows').innerHTML=users.map((u,i)=>`<tr><td>${esc(u.name)}</td><td><strong>${esc(u.login)}</strong></td><td>${esc(u.office.startsWith('فرع::')?u.office.slice(6):u.office)}</td><td>${esc(u.role)}</td><td>${u.createdAt?new Date(u.createdAt).toLocaleDateString('ar-LY'):'—'}</td><td>${esc(u.active||'نشط')}</td><td><button class="btn secondary" onclick="editUser(${i})">تعديل</button> <button class="btn secondary" onclick="resetUserPassword(${i})">تغيير كلمة المرور</button> <button class="btn secondary" onclick="toggleUser(${i})">${u.active==='موقوف'?'تفعيل':'إيقاف'}</button> <button class="btn danger" onclick="deleteUser(${i})">حذف</button></td></tr>`).join('')||'<tr><td colspan="6">لا توجد حسابات بعد.</td></tr>';
+}
+$('addUserBtn').onclick=async()=>{
+ let name=$('userFullName').value.trim(),login=$('userLogin').value.trim(),password=$('userPassword').value,office=$('userRole').value==='الفرز والتوزيع'?'وحدة الفرز والتوزيع':$('userOffice').value;
+ if(!name||!login||!password||!office){$('userMsg').textContent='أدخل الاسم واسم المستخدم وكلمة المرور واختر الجهة.';return}
+ if(users.some(u=>normLogin(u.login)===normLogin(login))){$('userMsg').textContent='اسم المستخدم موجود بالفعل. اختر اسماً آخر.';return}
+ try{const secure=await makePasswordHash(password);users.push({name,login,...secure,office,role:$('userRole').value,active:$('userActive').value==='موقوف'?'موقوف':'نشط',notes:$('userNotes').value.trim(),createdAt:new Date().toISOString()});persistUsers()}catch(e){$('userMsg').textContent=e.message;return}
+ $('userMsg').textContent='تم حفظ الحساب واسم المستخدم في سجل قسم المتابعة تلقائياً. احتفظ بكلمة المرور بشكل منفصل وسلّمها لصاحب الحساب.';
+ ['userFullName','userLogin','userPassword','userNotes'].forEach(id=>$(id).value='');$('userOffice').value='مكتب بريد غريان الرئيسي';
+};
+$('clearUserBtn').onclick=()=>{['userFullName','userLogin','userPassword','userNotes'].forEach(id=>$(id).value='');$('userOffice').value='مكتب بريد غريان الرئيسي';$('userMsg').textContent=''};
+$('userRole').addEventListener('change',()=>{if($('userRole').value==='الفرز والتوزيع')$('userOffice').value='وحدة الفرز والتوزيع'});
+$('userOffice').addEventListener('change',()=>{if($('userOffice').value==='وحدة الفرز والتوزيع')$('userRole').value='الفرز والتوزيع'});
+window.editUser=i=>{const u=users[i];if(!u)return;$('editUserIndex').value=i;$('editUserFullName').value=u.name;$('editUserLogin').value=u.login;$('editUserOffice').innerHTML='';options($('editUserOffice'),offices,"<option value=''>اختر المكتب</option>");Object.values(offices).flat().forEach(b=>{let o=document.createElement('option');o.value='فرع::'+b;o.textContent=b+' (فرع تابع)';$('editUserOffice').appendChild(o)});let extra=document.createElement('option');extra.value='وحدة الفرز والتوزيع';extra.textContent='وحدة الفرز والتوزيع';$('editUserOffice').appendChild(extra);$('editUserOffice').value=u.office;$('editUserRole').value=u.role;$('editUserActive').value=u.active==='موقوف'?'موقوف':'نشط';$('editUserNotes').value=u.notes||'';$('editUserBox').classList.remove('hidden');$('editUserMsg').textContent=''};
+$('saveUserEditBtn').onclick=()=>{let i=Number($('editUserIndex').value),u=users[i];if(!u)return;let name=$('editUserFullName').value.trim(),login=$('editUserLogin').value.trim(),office=$('editUserOffice').value;if(!name||!login||!office){$('editUserMsg').textContent='أكمل الاسم واسم المستخدم والجهة.';return}if(users.some((x,j)=>j!==i&&normLogin(x.login)===normLogin(login))){$('editUserMsg').textContent='اسم المستخدم مستخدم لحساب آخر.';return}let role=$('editUserRole').value;if(role==='الفرز والتوزيع')office='وحدة الفرز والتوزيع';if(office==='وحدة الفرز والتوزيع')role='الفرز والتوزيع';Object.assign(u,{name,login,office,role,active:$('editUserActive').value,notes:$('editUserNotes').value.trim()});persistUsers();$('editUserMsg').textContent='تم حفظ تعديل الحساب.';$('editUserBox').classList.add('hidden')};
+$('cancelUserEditBtn').onclick=()=>$('editUserBox').classList.add('hidden');
+window.resetUserPassword=async i=>{const u=users[i];if(!u)return;const pw=prompt('أدخل كلمة المرور الجديدة للحساب: '+u.login);if(pw===null)return;if(!pw.trim()){alert('كلمة المرور لا يمكن أن تكون فارغة.');return}try{const secure=await makePasswordHash(pw);delete u.password;Object.assign(u,secure,{passwordChangedAt:new Date().toISOString()});persistUsers();alert('تم تعيين كلمة مرور جديدة. لن يمكن عرضها لاحقاً، ويمكن لصاحب الحساب استخدامها للدخول.')}catch(e){alert(e.message)}};
+window.toggleUser=i=>{const u=users[i];if(!u)return;u.active=u.active==='موقوف'?'نشط':'موقوف';persistUsers();};
+window.deleteUser=i=>{const u=users[i];if(!u)return;if(confirm('تأكيد حذف حساب '+u.login+'؟')){users.splice(i,1);persistUsers()}};
+$('exportUsersBtn').onclick=()=>{let safe=users.map(({password,passwordHash,passwordSalt,passwordIterations,passwordAlgorithm,...u})=>u);let blob=new Blob([JSON.stringify(safe,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='قائمة-حسابات-البريد-الحكومي.json';a.click();URL.revokeObjectURL(a.href)};
+// Dedicated directory for the eight main offices and their staff / distributors.
+function renderOfficeAccounts(){
+ const sel=$('officeAccountFilter');if(!sel)return;
+ if(sel.options.length<=1)Object.keys(offices).forEach(k=>{let o=document.createElement('option');o.value=k;o.textContent=k;sel.appendChild(o)});
+ const chosen=sel.value,q=($('officeAccountSearch').value||'').trim().toLowerCase();
+ const officeUsers=users.filter(u=>u.office!=='وحدة الفرز والتوزيع' && u.role!=='المتابعة');
+ const filtered=officeUsers.filter(u=>(!chosen||u.office===chosen)&&(!q||[u.name,u.login,u.office,u.role,u.notes].join(' ').toLowerCase().includes(q)));
+ $('officeAccountHeading').textContent=chosen?('حسابات '+chosen):'حسابات جميع المكاتب الرئيسية الثمانية';
+ $('officeAccountTiles').innerHTML=Object.keys(offices).map(o=>{let n=officeUsers.filter(u=>u.office===o).length;return `<div class="stat blue" style="cursor:pointer" data-office-account="${esc(o)}">${esc(o)}<b>${n}</b><small>حساب مستخدم</small></div>`}).join('');
+ $('officeAccountRows').innerHTML=filtered.map(u=>`<tr><td>${esc(u.name)}</td><td><strong>${esc(u.login)}</strong></td><td>${esc(u.office.startsWith('فرع::')?u.office.slice(6):u.office)}</td><td>${esc(u.role)}</td><td>${esc(u.active||'نشط')}</td><td>${u.createdAt?new Date(u.createdAt).toLocaleDateString('ar-LY'):'—'}</td></tr>`).join('')||'<tr><td colspan="6">لا توجد حسابات مسجلة لهذا المكتب. يمكنك صرف حساب من إدارة المستخدمين.</td></tr>';
+ document.querySelectorAll('[data-office-account]').forEach(el=>el.onclick=()=>{sel.value=el.getAttribute('data-office-account');renderOfficeAccounts()});
+}
+$('officeAccountFilter').addEventListener('change',renderOfficeAccounts);$('officeAccountSearch').addEventListener('input',renderOfficeAccounts);
+$('goManageUsersBtn').onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab==='users'));showPanel('users')};
+$('sortingLoginBtn').onclick=async()=>{
+ const username=$('sortingLoginName').value.trim(),password=$('sortingLoginPass').value;
+ const account=users.find(u=>isSortingAccount(u)&&normLogin(u.login)===normLogin(username));
+ if(!account){$('sortingLoginMsg').textContent='اسم المستخدم غير موجود أو ليس مخصصاً لوحدة الفرز والتوزيع.';return}
+ if(account.active==='موقوف'){$('sortingLoginMsg').textContent='هذا الحساب موقوف. راجع رئيس قسم متابعة الخدمات.';return}
+ let valid=false;try{valid=await verifyPassword(account,password)}catch(e){$('sortingLoginMsg').textContent=e.message;return}if(!valid){$('sortingLoginMsg').textContent='كلمة المرور غير صحيحة. يمكن لرئيس القسم إعادة تعيينها من إدارة المستخدمين.';return}persistUsers();
+ localStorage.setItem('postal_last_sorting_username_v1',account.login);$('sortingLoginName').value=account.login;sortingUnitAuthenticated=true;$('sortingLoginPass').value='';showPanel('sorting');renderSorting();
+};
+$('sortingLoginName').addEventListener('change',()=>localStorage.setItem('postal_last_sorting_username_v1',$('sortingLoginName').value.trim()));
+$('sortingLoginPass').addEventListener('keydown',e=>{if(e.key==='Enter')$('sortingLoginBtn').click()});
+
+// Office portal: office account signs in, sees only records assigned to that office.
+let activeOfficeAccount=null;
+options($('portalOffice'),offices,"<option value=''>اختر المكتب أو الفرع</option>");
+Object.values(offices).flat().forEach(b=>{let o=document.createElement("option");o.value="فرع::"+b;o.textContent=b+" (فرع تابع)";$("portalOffice").appendChild(o)});
+function fillOfficeUsername(){
+ const office=$('portalOffice').value;
+ const account=users.find(u=>u.office===office && !isSortingAccount(u) && u.role!=='المتابعة' && u.active!=='موقوف');
+ $('portalUsername').value=account?account.login:'';
+ $('portalPassword').value='';
+ $('officePortalMsg').textContent=account?'اسم المستخدم محفوظ لهذا المكتب. أدخل كلمة المرور.':'لا يوجد حساب نشط مسجل لهذا المكتب حتى الآن.';
+}
+$('portalOffice').addEventListener('change',fillOfficeUsername);
+function renderOfficePortal(){
+ if(!activeOfficeAccount)return;
+ const office=activeOfficeAccount.office;
+ const branchOnly=office.startsWith('فرع::')?office.slice(6):'';
+ const mainOffice=branchOnly?Object.keys(offices).find(k=>(offices[k]||[]).includes(branchOnly)):office;
+ const q=($('officePortalSearch').value||'').trim().toLowerCase();
+ const list=records.filter(r=>r.office===mainOffice && (!branchOnly||r.branch===branchOnly) && (!q||[r.barcode,r.sender,r.recipient,r.branch,r.distributor].join(' ').toLowerCase().includes(q)));
+ $('officePortalWelcome').textContent=(branchOnly?branchOnly:office)+' — '+activeOfficeAccount.name;
+ $('portalTotal').textContent=list.length;
+ $('portalPending').textContent=list.filter(r=>r.status!=='تم التسليم').length;
+ $('portalDone').textContent=list.filter(r=>r.status==='تم التسليم').length;
+ $('officePortalRows').innerHTML=list.map(r=>`<tr><td><strong>${esc(r.barcode)}</strong></td><td>${esc(r.sender)}</td><td>${esc(r.recipient)}</td><td>${esc(r.branch||'المكتب الرئيسي')}</td><td>${statusTag(r.status,r)}</td><td>${new Date(r.registered).toLocaleString('ar-LY')}</td><td><button class="btn" onclick="openOfficeWaybill(${r.id})">فتح البوليصة والتسليم</button></td></tr>`).join('')||'<tr><td colspan="7">لا توجد بوالص محالة إلى هذا المكتب حالياً.</td></tr>';
+}
+window.openOfficeWaybill=id=>{const r=records.find(x=>x.id===id);if(!r||!activeOfficeAccount)return;const aOffice=activeOfficeAccount.office,branchOnly=aOffice.startsWith('فرع::')?aOffice.slice(6):'';const mainOffice=branchOnly?Object.keys(offices).find(k=>(offices[k]||[]).includes(branchOnly)):aOffice;if(r.office!==mainOffice||(branchOnly&&r.branch!==branchOnly))return; $('lookupBarcode').value=r.barcode; $('findBtn').click(); document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab==='lookup')); showPanel('lookup');};
+$('officePortalLoginBtn').onclick=async()=>{
+ const office=$('portalOffice').value,login=$('portalUsername').value.trim(),password=$('portalPassword').value;
+ const account=users.find(u=>u.office===office && !isSortingAccount(u) && u.role!=='المتابعة' && normLogin(u.login)===normLogin(login));
+ if(!office||!account){$('officePortalMsg').textContent='لا يوجد حساب بهذا الاسم مخصص للمكتب المختار. راجع قسم المتابعة.';return;}
+ if(account.active==='موقوف'){$('officePortalMsg').textContent='هذا الحساب موقوف. راجع رئيس قسم متابعة الخدمات.';return;}
+ if(!password){$('officePortalMsg').textContent='اكتب كلمة المرور المخصصة للحساب.';return;}
+ let valid=false;try{valid=await verifyPassword(account,password)}catch(e){$('officePortalMsg').textContent=e.message;return;}
+ if(!valid){$('officePortalMsg').textContent='كلمة المرور غير صحيحة. راجع قسم المتابعة لإعادة تعيينها.';return;}
+ persistUsers();activeOfficeAccount=account;$('portalPassword').value='';$('officePortalLogin').classList.add('hidden');$('officePortalWorkspace').classList.remove('hidden');$('officePortalMsg').textContent='';$('officePortalSearch').value='';renderOfficePortal();
+};
+$('officePortalRefresh').onclick=renderOfficePortal;$('officePortalSearch').addEventListener('input',renderOfficePortal);
+$('officePortalLogout').onclick=()=>{activeOfficeAccount=null;$('officePortalWorkspace').classList.add('hidden');$('officePortalLogin').classList.remove('hidden');$('portalPassword').value='';fillOfficeUsername();};
+// Keep the portal list current whenever records are updated in this browser.
+const originalPersistForPortal=persist;
+persist=function(){originalPersistForPortal();if(activeOfficeAccount)renderOfficePortal();};
+
+render();renderUsers();renderStatistics();renderManager();renderSorting();fillOfficeUsername();
+</script>
+
+<style>
+#pwaInstallPanel{position:fixed;z-index:99999;bottom:14px;left:14px;right:14px;max-width:440px;margin:auto;
+background:#123b63;color:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 8px 28px #0004;
+display:none;font-family:inherit}
+#pwaInstallPanel button{border:0;border-radius:9px;padding:9px 14px;margin:4px;font-weight:700;cursor:pointer}
+#pwaInstallNow{background:#fff;color:#123b63}
+#pwaInstallHelp{background:#dce8f4;color:#123b63}
+#pwaInstallClose{background:transparent;color:#fff;border:1px solid #ffffff80!important}
+#pwaInstallPanel .pwaSmall{font-size:12px;opacity:.9;margin-top:5px}
+</style>
+<div id="pwaInstallPanel" dir="rtl">
+  <div style="font-weight:800;margin-bottom:5px">تثبيت تطبيق البريد الحكومي</div>
+  <div style="font-size:13px">أضف المنظومة إلى الشاشة الرئيسية أو سطح المكتب للوصول إليها مثل التطبيق.</div>
+  <div style="margin-top:8px">
+    <button id="pwaInstallNow">تثبيت التطبيق</button>
+    <button id="pwaInstallHelp">طريقة الإضافة</button>
+    <button id="pwaInstallClose">لاحقاً</button>
+  </div>
+  <div class="pwaSmall">قد يطلب المتصفح تأكيد التثبيت. لا يمكن تثبيت التطبيق تلقائياً دون موافقة المستخدم.</div>
+</div>
+<script>
+(function(){
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('./service-worker.js').catch(function(err){
+        console.warn('Service worker registration failed:', err);
+      });
+    });
+  }
+  var panel = document.getElementById('pwaInstallPanel');
+  var installBtn = document.getElementById('pwaInstallNow');
+  var helpBtn = document.getElementById('pwaInstallHelp');
+  var closeBtn = document.getElementById('pwaInstallClose');
+  var deferredPrompt = null;
+  var standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  if (!standalone) {
+    window.addEventListener('beforeinstallprompt', function(e){
+      e.preventDefault();
+      deferredPrompt = e;
+      panel.style.display = 'block';
+    });
+    // On browsers that don't expose the install prompt, show manual instructions.
+    setTimeout(function(){
+      if (!deferredPrompt && panel && !standalone) panel.style.display = 'block';
+    }, 2500);
+  }
+  installBtn.addEventListener('click', async function(){
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      panel.style.display = 'none';
+    } else {
+      showHelp();
+    }
+  });
+  function showHelp(){
+    var ua = navigator.userAgent || '';
+    var msg = /Android/i.test(ua)
+      ? 'على أندرويد: افتح قائمة المتصفح ⋮ ثم اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».'
+      : 'على الكمبيوتر: من قائمة المتصفح اختر «تثبيت البريد الحكومي» أو «Install app». وإذا لم تظهر، استخدم «إنشاء اختصار» أو «إضافة إلى الشاشة الرئيسية» حسب المتصفح.';
+    alert(msg);
+  }
+  helpBtn.addEventListener('click', showHelp);
+  closeBtn.addEventListener('click', function(){ panel.style.display = 'none'; });
+})();
+</script>
+
+</body></html>
